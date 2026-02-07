@@ -1,0 +1,38 @@
+services:
+  mini-simple-db-mysql:
+    container_name: mini-simple-db-${PROJECT_NAME:-default}
+    image: mysql:8.0
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassbleh
+      MYSQL_USER: Euclid
+      MYSQL_PASSWORD: star
+      MYSQL_DATABASE: simple_db
+    ports:
+      - "${DB_PORT:-3306}:3306"
+    volumes:
+      - "${DB_DIR:-./db}/simple_db.sql:/docker-entrypoint-initdb.d/1.sql"
+    networks:
+      - db_node_network
+  
+  node-app:
+    image: node:18-alpine
+    container_name: node-site-${PROJECT_NAME:-default}
+    working_dir: /app
+    command: sh -c "npm install && npm start"
+    environment:
+      DB_HOST: mini-simple-db-${PROJECT_NAME:-default}
+      DB_USER: Euclid
+      DB_PASSWORD: star
+      DB_NAME: simple_db
+    ports:
+      - "${APP_PORT:-3000}:3000"
+    volumes:
+      - ${COMPOSE_FILE_DIR:-./Database-Node}/site:/app
+    depends_on:
+      - mini-simple-db-mysql
+    networks:
+      - db_node_network
+
+networks:
+  db_node_network:
