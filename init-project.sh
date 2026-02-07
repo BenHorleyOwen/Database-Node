@@ -16,8 +16,8 @@ mkdir -p "$PROJECT_PATH"
 # Get absolute path
 PROJECT_PATH="$(cd "$PROJECT_PATH" && pwd)"
 
-echo "Initializing Database-Jekyll project at: $PROJECT_PATH"
-echo "Database-Jekyll location: $SCRIPT_DIR"
+echo "Initializing Database-Node project at: $PROJECT_PATH"
+echo "Database-Node location: $SCRIPT_DIR"
 
 # Create symlink to compose.yml
 echo "Creating symlink to compose.yml..."
@@ -47,7 +47,6 @@ echo "Creating .env file..."
 PROJECT_NAME=$(basename "$PROJECT_PATH")
 cat > "$PROJECT_PATH/.env" << ENVFILE
 PROJECT_NAME=$PROJECT_NAME
-DB_DIR=$PROJECT_PATH/db
 APP_PORT=3000
 DB_PORT=3306
 ENVFILE
@@ -74,9 +73,9 @@ chmod +x "$PROJECT_PATH/stop.sh"
 # Create README
 echo "Creating README.md..."
 cat > "$PROJECT_PATH/README.md" << 'README'
-# Database-Jekyll Project
+# Database-Node Project
 
-This project uses the Database-Jekyll compose stack.
+This project uses the Database-Node compose stack.
 
 ## Usage
 
@@ -96,7 +95,6 @@ Access the site at: http://localhost:3000
 
 Edit `.env` to change:
 - `PROJECT_NAME`: Unique name for this project's containers
-- `DB_DIR`: Path to database SQL files
 - `APP_PORT`: Port for the web interface
 - `DB_PORT`: Port for MySQL
 
