@@ -28,7 +28,7 @@ services:
     ports:
       - "${APP_PORT:-3000}:3000"
     volumes:
-      - ../Database-Node/site:/app
+      - ./site:/app
     depends_on:
       - mini-simple-db-mysql
     networks:
