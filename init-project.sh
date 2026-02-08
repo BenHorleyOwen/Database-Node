@@ -23,6 +23,9 @@ echo "Database-Node location: $SCRIPT_DIR"
 echo "Creating symlink to compose.yml..."
 ln -sf "$SCRIPT_DIR/compose.yml" "$PROJECT_PATH/compose.yml"
 
+# Create site directory
+cp -rT "$SCRIPT_DIR/site" "$PROJECT_PATH/site"
+
 # Create db directory
 echo "Creating db directory..."
 mkdir -p "$PROJECT_PATH/db"
