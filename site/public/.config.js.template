@@ -1,0 +1,70 @@
+// config.js.template: Starter template to structure database search functionality
+
+const CONFIG = {
+    // Site metadata
+    site: {
+        title: "Search Directory",
+        searchPlaceholder: "Search database...",
+    },
+
+    // API endpoints
+    api: {
+        baseUrl: "/api",
+        searchEndpoint: "/search",
+        dataEndpoint: "/data"
+    },
+
+    // Database fields configuration
+    fields: {
+        // Primary display field (required)
+        primary: {
+            key: "Field 1",
+            label: "Field 1",
+            type: "text",
+            searchable: true,
+            displayInCard: true,
+            displayInList: true,
+        },
+
+        // Additional fields
+        secondary: [
+            {
+                key: "Field 2",
+                label: "Field 2",
+                type: "text",
+                searchable: true,
+                displayInCard: true,
+                displayInList: true,
+            },
+            {
+                key: "category",
+                label: "Category",
+                type: "select",
+                searchable: false,
+                displayInCard: true,
+                displayInList: true,
+                options: [
+                    { value: "", label: "All Categories" },
+                    { value: "Secondary", label: "Secondary" }
+                ]
+            },
+        ]
+    },
+
+    // Display options
+    display: {
+        showRawJson: true,           // Show JSON data view
+        resultsPerPage: 50,
+        showResultCount: true,
+        cardLayout: "grid",          // "grid" or "list"
+        enableDebounce: true,
+        debounceDelay: 300          // ms
+    },
+
+    theme: "default"  
+};
+
+// Export for use in other scripts
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = CONFIG;
+}

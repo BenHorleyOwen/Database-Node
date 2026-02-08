@@ -1,0 +1,222 @@
+/* styles-default.css */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary-color: #dbf7d2;
+    --secondary-color: #72E04D;
+    --background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    --card-bg: white;
+    --text-primary: #081604;
+    --text-secondary: #173D0B;
+    --border-color: #EEFBE9;
+    --success-color: #DBF7D2;
+    --error-color: #F7D2EE;
+    --rating-color: #DBD2F7;
+}
+
+body {
+    font-family: 'Georgia', 'Times New Roman', Verdana, Geneva, serif;
+    background: var(--background);
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.search-box {
+    background: var(--card-bg);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    margin-bottom: 30px;
+}
+
+h1 {
+    color: var(--text-primary);
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.search-form {
+    display: grid;
+    gap: 15px;
+}
+
+.search-input {
+    width: 100%;
+    padding: 14px;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 16px;
+    transition: border-color 0.3s;
+}
+
+    .search-input:focus {
+        outline: none;
+        border-color: var(--primary-color);
+    }
+
+.filters-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+    .filter-group label {
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--text-secondary);
+    }
+
+    .filter-group select,
+    .filter-group input {
+        padding: 10px;
+        border: 2px solid var(--border-color);
+        border-radius: 6px;
+        font-size: 14px;
+    }
+
+.search-button {
+    background: var(--background);
+    color: white;
+    border: none;
+    padding: 14px;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+    .search-button:hover {
+        transform: translateY(-2px);
+    }
+
+.results {
+    display: grid;
+    gap: 20px;
+}
+
+.result-card {
+    background: var(--card-bg);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transition: transform 0.2s;
+}
+
+    .result-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+
+.card-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 15px;
+}
+
+.card-details {
+    display: grid;
+    gap: 10px;
+}
+
+.card-field {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-secondary);
+}
+
+.field-icon {
+    font-size: 18px;
+}
+
+.field-label {
+    font-weight: 600;
+    color: var(--text-primary);
+    min-width: 100px;
+}
+
+.field-value {
+    flex: 1;
+}
+
+.multiline-text {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border-color);
+    line-height: 1.6;
+}
+
+.map-link {
+    display: inline-block;
+    margin-top: 12px;
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.loading {
+    text-align: center;
+    padding: 20px;
+    color: white;
+    font-size: 18px;
+}
+
+.error {
+    background: var(--error-color);
+    color: white;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.no-results {
+    background: var(--card-bg);
+    padding: 40px;
+    border-radius: 12px;
+    text-align: center;
+    color: var(--text-secondary);
+}
+
+.results-count {
+    color: white;
+    margin-bottom: 15px;
+    font-size: 18px;
+}
+
+.raw-data {
+    background: var(--card-bg);
+    padding: 20px;
+    border-radius: 12px;
+    margin-top: 20px;
+}
+
+    .raw-data pre {
+        background: #272822;
+        color: #f8f8f2;
+        padding: 15px;
+        border-radius: 8px;
+        overflow-x: auto;
+    }
+
+@media (max-width: 768px) {
+    .filters-container {
+        grid-template-columns: 1fr;
+    }
+}
