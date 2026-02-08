@@ -16,12 +16,12 @@ mkdir -p "$PROJECT_PATH"
 # Get absolute path
 PROJECT_PATH="$(cd "$PROJECT_PATH" && pwd)"
 
-echo "Initializing Database-Jekyll project at: $PROJECT_PATH"
-echo "Database-Jekyll location: $SCRIPT_DIR"
+echo "Initializing Database-Node project at: $PROJECT_PATH"
+echo "Database-Node location: $SCRIPT_DIR"
 
 # Create symlink to compose.yml
 echo "Creating symlink to compose.yml..."
-ln -sf "$SCRIPT_DIR/compose.yml" "$PROJECT_PATH/docker-compose.yml"
+ln -sf "$SCRIPT_DIR/compose.yml" "$PROJECT_PATH/compose.yml"
 
 # Create db directory
 echo "Creating db directory..."
@@ -74,9 +74,9 @@ chmod +x "$PROJECT_PATH/stop.sh"
 # Create README
 echo "Creating README.md..."
 cat > "$PROJECT_PATH/README.md" << 'README'
-# Database-Jekyll Project
+# Database-Node Project
 
-This project uses the Database-Jekyll compose stack.
+This project uses the Database-Node compose stack.
 
 ## Usage
 
@@ -111,7 +111,7 @@ echo "✅ Project initialized successfully!"
 echo ""
 echo "Project structure:"
 echo "  $PROJECT_PATH/"
-echo "  ├── docker-compose.yml (symlink)"
+echo "  ├── compose.yml (symlink)"
 echo "  ├── .env"
 echo "  ├── db/"
 echo "  │   └── simple_db.sql"
