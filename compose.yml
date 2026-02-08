@@ -11,7 +11,7 @@ services:
     ports:
       - "${DB_PORT:-3306}:3306"
     volumes:
-      - ../db/simple_db.sql:/docker-entrypoint-initdb.d/1.sql
+      - ${DB_DIR:-./db}/simple_db.sql:/docker-entrypoint-initdb.d/1.sql
     networks:
       - db_node_network
 
