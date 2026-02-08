@@ -39,8 +39,7 @@ Key Design Principles:
 
 **Example .env file:**
 ```env
-PROJECT_NAME=project1
-DB_DIR=/absolute/path/to/project1/db
+PROJECT_NAME=project name
 APP_PORT=3000
 DB_PORT=3306
 ```
@@ -56,13 +55,11 @@ cd ~/path/to/new-project
 ```env
 # project1/.env
 PROJECT_NAME=project1
-DB_DIR=/home/user/project1/db
 APP_PORT=3000
 DB_PORT=3306
 
 # project2/.env
 PROJECT_NAME=project2
-DB_DIR=/home/user/project2/db
 APP_PORT=3001
 DB_PORT=3307
 ```

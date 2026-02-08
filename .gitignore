@@ -1,4 +1,6 @@
+.gitignore
 .env
 node_modules/
 .DS_Store
 *.log
+site/package-lock.json

@@ -47,7 +47,6 @@ echo "Creating .env file..."
 PROJECT_NAME=$(basename "$PROJECT_PATH")
 cat > "$PROJECT_PATH/.env" << ENVFILE
 PROJECT_NAME=$PROJECT_NAME
-DB_DIR=$PROJECT_PATH/db
 APP_PORT=3000
 DB_PORT=3306
 ENVFILE
@@ -96,7 +95,6 @@ Access the site at: http://localhost:3000
 
 Edit `.env` to change:
 - `PROJECT_NAME`: Unique name for this project's containers
-- `DB_DIR`: Path to database SQL files
 - `APP_PORT`: Port for the web interface
 - `DB_PORT`: Port for MySQL
 
