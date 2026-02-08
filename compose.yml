@@ -1,5 +1,5 @@
 services:
-  mini-simple-db-mysql:
+  db:
     container_name: db-${PROJECT_NAME:-default}
     image: mysql:8.0
     command: --default-authentication-plugin=mysql_native_password
@@ -30,7 +30,7 @@ services:
     volumes:
       - ${COMPOSE_FILE_DIR:-./site}:/app
     depends_on:
-      - db-${PROJECT_NAME:-default}
+      - db
     networks:
       - db_node_network
 
