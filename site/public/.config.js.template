@@ -13,6 +13,14 @@ const CONFIG = {
         searchEndpoint: "/search",
         dataEndpoint: "/data"
     },
+    
+    //API and UI collection ids
+    data: {
+        collectionKey: "businesses",
+    	dom: {
+            totalCountId: "businesses"
+    	}
+    },
 
     // Database fields configuration
     fields: {
