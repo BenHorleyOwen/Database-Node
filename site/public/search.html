@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="pageTitle">Loading...</title>
+    <link rel="stylesheet" id="themeStylesheet" href="">
+</head>
+<body>
+    <div class="container">
+        <div class="search-box">
+            <h1 id="siteTitle"></h1>
+
+            <form class="search-form" id="searchForm"></form>
+        </div>
+
+        <div id="errorContainer"></div>
+        <div id="loadingContainer"></div>
+        <div id="resultsCount"></div>
+        <div id="resultsContainer" class="results"></div>
+        <div id="rawDataContainer"></div>
+    </div>
+
+    <!-- Load configuration first -->
+    <script src="config.js"></script>
+
+    <script>
+        // Initialize page with config
+        function initializePage() {
+            // Set page title and heading
+            document.getElementById('pageTitle').textContent = CONFIG.site.title;
+            document.getElementById('siteTitle').textContent =
+                `${CONFIG.site.title}`;
+
+            // Load theme stylesheet
+            document.getElementById('themeStylesheet').href =
+                `styles-${CONFIG.theme}.css`;
+
+            // Build search form dynamically
+            buildSearchForm();
+
+            // Set up event listeners
+            setupEventListeners();
+
+            // Load initial data
+            loadInitialData();
+        }
+
+        function buildSearchForm() {
+            const form = document.getElementById('searchForm');
+            let formHTML = '';
+
+            // Primary search field
+            formHTML += `
+                <input
+                    type="text"
+                    id="field_${CONFIG.fields.primary.key}"
+                    name="${CONFIG.fields.primary.key}"
+                    placeholder="${CONFIG.site.searchPlaceholder}"
+                    class="search-input"
+                >
+            `;
+
+            // Build filters from secondary fields
+            const filterFields = CONFIG.fields.secondary.filter(f =>
+                f.type === 'select' || f.searchable
+            );
+
+            if (filterFields.length > 0) {
+                formHTML += '<div class="filters-container">';
+
+                filterFields.forEach(field => {
+                    if (field.type === 'select') {
+                        formHTML += `
+                            <div class="filter-group">
+                                <label for="field_${field.key}">${field.label}</label>
+                                <select id="field_${field.key}" name="${field.key}">
+                                    ${field.options.map(opt =>
+                                        `<option value="${opt.value}">${opt.label}</option>`
+                                    ).join('')}
+                                </select>
+                            </div>
+                        `;
+                    } else if (field.searchable && field.key !== CONFIG.fields.primary.key) {
+                        formHTML += `
+                            <div class="filter-group">
+                                <label for="field_${field.key}">${field.label}</label>
+                                <input
+                                    type="${field.type}"
+                                    id="field_${field.key}"
+                                    name="${field.key}"
+                                    placeholder="${field.label}..."
+                                >
+                            </div>
+                        `;
+                    }
+                });
+
+                formHTML += '</div>';
+            }
+
+            formHTML += `
+                <button type="submit" class="search-button">
+                    Search
+                </button>
+            `;
+
+            form.innerHTML = formHTML;
+        }
+
+        function setupEventListeners() {
+            const form = document.getElementById('searchForm');
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                performSearch();
+            });
+
+            // Debounced search on primary field
+            if (CONFIG.display.enableDebounce) {
+                const primaryInput = document.getElementById(
+                    `field_${CONFIG.fields.primary.key}`
+                );
+
+                let debounceTimeout;
+                primaryInput.addEventListener('input', () => {
+                    clearTimeout(debounceTimeout);
+                    debounceTimeout = setTimeout(
+                        performSearch,
+                        CONFIG.display.debounceDelay
+                    );
+                });
+            }
+        }
+
+        async function performSearch() {
+            const formData = new FormData(document.getElementById('searchForm'));
+            const params = new URLSearchParams();
+
+            // Build query params from form
+            for (let [key, value] of formData.entries()) {
+                if (value) {
+                    params.append(key, value);
+                }
+            }
+
+            showLoading(true);
+            clearError();
+
+            try {
+                const url = `${CONFIG.api.baseUrl}${CONFIG.api.searchEndpoint}?${params}`;
+                const response = await fetch(url);
+
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+
+                const data = await response.json();
+                const results = data.businesses || data;
+
+                displayResults(results);
+
+                if (CONFIG.display.showRawJson) {
+                    displayRawData(results);
+                }
+
+            } catch (error) {
+                showError(error.message);
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        function displayResults(results) {
+            const container = document.getElementById('resultsContainer');
+            const countContainer = document.getElementById('resultsCount');
+
+            if (CONFIG.display.showResultCount) {
+                countContainer.innerHTML = `
+                    <div class="results-count">
+                        Found ${results.length} result${results.length !== 1 ? 's' : ''}
+                    </div>
+                `;
+            }
+
+            if (results.length === 0) {
+                container.innerHTML = `
+                    <div class="no-results">
+                        <h2>No results found</h2>
+                        <p>Try adjusting your search criteria</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = results.map(item =>
+                buildResultCard(item)
+            ).join('');
+        }
+
+        function buildResultCard(item) {
+            const primary = CONFIG.fields.primary;
+            let cardHTML = '<div class="result-card">';
+
+            // Primary field (title)
+            cardHTML += `
+                <div class="card-title">
+                    ${primary.icon} ${escapeHtml(item[primary.key] || 'Untitled')}
+                </div>
+            `;
+
+            // Secondary fields
+            cardHTML += '<div class="card-details">';
+
+            CONFIG.fields.secondary
+                .filter(f => f.displayInCard && item[f.key])
+                .forEach(field => {
+                    let value = item[field.key];
+
+                    // Apply formatter if available
+                    if (field.formatter) {
+                        value = field.formatter(value);
+                    } else if (field.multiline) {
+                        value = `<div class="multiline-text">${escapeHtml(value)}</div>`;
+                    } else {
+                        value = escapeHtml(value);
+                    }
+
+                    cardHTML += `
+                        <div class="card-field">
+                            <span class="field-label">${field.label}:</span>
+                            <span class="field-value">${value}</span>
+                        </div>
+                    `;
+                });
+
+            cardHTML += '</div>';
+
+            // Map link if lat/lng available
+            if (CONFIG.display.enableMapLinks && item.latitude && item.longitude) {
+                cardHTML += `
+                    <a href="https://www.google.com/maps?q=${item.latitude},${item.longitude}"
+                       target="_blank"
+                       class="map-link">
+                        View on Map
+                    </a>
+                `;
+            }
+
+            cardHTML += '</div>';
+            return cardHTML;
+        }
+
+        function displayRawData(data) {
+            const container = document.getElementById('rawDataContainer');
+            container.innerHTML = `
+                <div class="raw-data">
+                    <h3>Raw Data (JSON)</h3>
+                    <pre>${JSON.stringify(data, null, 2)}</pre>
+                </div>
+            `;
+        }
+
+        function loadInitialData() {
+            fetch(`${CONFIG.api.baseUrl}${CONFIG.api.dataEndpoint}`)
+                .then(r => r.json())
+                .then(data => {
+                    if (CONFIG.display.showRawJson) {
+                        displayRawData(data);
+                    }
+                })
+                .catch(error => showError(error.message));
+        }
+
+        function showLoading(show) {
+            const container = document.getElementById('loadingContainer');
+            container.innerHTML = show ? '<div class="loading">Searching...</div>' : '';
+        }
+
+        function showError(message) {
+            const container = document.getElementById('errorContainer');
+            container.innerHTML = `
+                <div class="error">Error: ${escapeHtml(message)}</div>
+            `;
+        }
+
+        function clearError() {
+            document.getElementById('errorContainer').innerHTML = '';
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = String(text);
+            return div.innerHTML;
+        }
+
+        // Initialize on page load
+        window.addEventListener('DOMContentLoaded', initializePage);
+    </script>
+</body>
+</html>
