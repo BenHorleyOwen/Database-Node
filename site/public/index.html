@@ -9,8 +9,8 @@
 <body>
     <div class="landing-container">
         <div class="landing-card">
-            <h1 class="landing-title">Business Directory</h1>
-            <p class="landing-subtitle">Search and discover businesses across the UK</p>
+            <h1 id="siteTitle"></h1>
+            <p id="siteSubtitle"></p>
 
             <div class="redirect-btns" id="redirects"></div>
             <!-- TODO: Move button/card/class declarations to after config loading -->
@@ -42,12 +42,20 @@
     <script>
         function initializePage() {
             // Set page title
-            document.getElementById('pageTitle').textContent = CONFIG.site.title;
+            document.getElementById('pageTitle').textContent = CONFIG.page.landing;
             document.getElementById('siteTitle').textContent =
                 `${CONFIG.site.title}`;
+            document.getElementById('siteSubtitle').textContent =
+                `${CONFIG.site.subtitle}`;
 
             document.getElementById('themeStylesheet').href =
                 `styles-${CONFIG.theme}.css`;
+
+            setupEventListeners();
+        }
+
+        setupEventListeners() {
+            
         }
 
         const collectionKey = CONFIG.data.collectionKey;
@@ -66,6 +74,9 @@
             .catch(() => {
                 document.getElementById(totalCountId).textContent = '-';
             });
+
+        // Page initialization
+        window.addEventListener('DOMContentLoaded', initializePage);
     </script>
 </body>
 </html>

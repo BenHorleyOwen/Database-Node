@@ -4,6 +4,7 @@ const CONFIG = {
     // Site metadata
     site: {
         title: "Business Search Directory",
+        subtitle: "Search and discover businesses across the UK",
         searchPlaceholder: "Search database...",
     },
 
