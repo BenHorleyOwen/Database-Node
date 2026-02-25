@@ -7,6 +7,12 @@ const CONFIG = {
         searchPlaceholder: "Search database...",
     },
 
+    page: {
+        landing: "Business Directory",
+        search: "Business Search Directory",
+        data: "Business Directory - Open Database",
+    },
+
     // API endpoints
     api: {
         baseUrl: "/api",
