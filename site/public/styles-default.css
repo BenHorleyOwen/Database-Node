@@ -30,18 +30,43 @@ body {
     margin: 0 auto;
 }
 
+h1 {
+    color: var(--text-primary);
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+h2 {
+    color: var(--text-secondary);
+    margin-bottom: 18px;
+    text-align: center;
+}
+
+.card-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 15px;
+}
+
+.card-details {
+    display: grid;
+    gap: 10px;
+}
+
+.card-field {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-secondary);
+}
+
 .search-box {
     background: var(--card-bg);
     padding: 30px;
     border-radius: 12px;
     box-shadow: 0 10px 40px rgba(0,0,0,0.2);
     margin-bottom: 30px;
-}
-
-h1 {
-    color: var(--text-primary);
-    margin-bottom: 20px;
-    text-align: center;
 }
 
 .search-form {
@@ -122,29 +147,6 @@ h1 {
         transform: translateY(-5px);
         box-shadow: 0 8px 25px rgba(0,0,0,0.15);
     }
-
-.card-title {
-    font-size: 24px;
-    font-weight: 700;
-    color: var(--primary-color);
-    margin-bottom: 15px;
-}
-
-.card-details {
-    display: grid;
-    gap: 10px;
-}
-
-.card-field {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    color: var(--text-secondary);
-}
-
-.field-icon {
-    font-size: 18px;
-}
 
 .field-label {
     font-weight: 600;
