@@ -7,21 +7,15 @@
     <link rel="stylesheet" id="themeStylesheet" href="">
 </head>
 <body>
-    <div class="landing-container">
-        <div class="landing-card">
+    <div class="container">
+        <div class="card-secondary">
             <h1 id="siteTitle"></h1>
-            <p id="siteSubtitle"></p>
+        </div>
+        <div class="card-primary">
+            <h2 id="siteSubtitle"></h2>
+        
 
-            <div class="redirect-btns" id="redirects"></div>
-            <!-- TODO: Move button/card/class declarations to after config loading -->
-            <div class="button-group">
-                <a href="/search.html" class="btn btn-primary">
-                    Start Searching
-                </a>
-                <a href="/api/data" class="btn btn-secondary">
-                    View API Data
-                </a>
-            </div>
+            <div id="redirects"></div>
 
             <div class="stats">
                 <div class="stat-card">
@@ -30,6 +24,8 @@
                 </div>
             </div>
 
+
+            <!-- TODO: Update landing text to note correct api sources -->
             <div class="landing-info">
                 <p>Powered by multiple data sources</p>
             </div>
@@ -51,13 +47,32 @@
             document.getElementById('themeStylesheet').href =
                 `styles-${CONFIG.theme}.css`;
 
+            // Add directory buttons
+            buildLandingPage();
+
             setupEventListeners();
         }
 
-        setupEventListeners() {
-            
+        function buildLandingPage() {
+            const container = document.getElementById('redirects');
+
+            container.innerHTML =
+                `<div class="button-group">
+                    <a href="/search.html" class="button-primary">
+                        Start Searching
+                    </a>
+                    <a href="/api/data" class="button-primary">
+                        View API Data
+                    </a>
+                </div>`;
+
+        };
+
+        function setupEventListeners() {
+            //TODO: Add routing 
         }
 
+        // Pull database stats for display
         const collectionKey = CONFIG.data.collectionKey;
         const totalCountId = CONFIG.data.dom.totalCountId;
         document.querySelector('.stat-value').id = totalCountId;

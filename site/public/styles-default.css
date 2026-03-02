@@ -32,14 +32,22 @@ body {
 
 h1 {
     color: var(--text-primary);
-    margin-bottom: 20px;
+    margin:8px 8px;
     text-align: center;
 }
 
 h2 {
     color: var(--text-secondary);
-    margin-bottom: 18px;
-    text-align: center;
+    margin-bottom: 16px;
+    text-align: left;
+}
+
+.card-primary {
+    background: var(--card-bg);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    margin-bottom: 30px;
 }
 
 .card-title {
@@ -61,12 +69,14 @@ h2 {
     color: var(--text-secondary);
 }
 
-.search-box {
+.card-secondary {
     background: var(--card-bg);
     padding: 30px;
     border-radius: 12px;
     box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-    margin-bottom: 30px;
+    margin: 0 auto 30px auto;
+    width: fit-content;
+    gap: 20px;
 }
 
 .search-form {
@@ -114,6 +124,15 @@ h2 {
         font-size: 14px;
     }
 
+.button-group {
+    background: var(--card-bg);
+    padding: 30px;
+    border-radius: 18px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    margin-bottom: 0 auto 30px auto;
+    width: fit-content;
+    gap: 20px;
+}
 .button-primary {
     background: var(--background);
     color: white;
