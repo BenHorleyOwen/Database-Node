@@ -21,7 +21,10 @@ echo "Database-Node location: $SCRIPT_DIR"
 
 # Create symlink to compose.yml
 echo "Creating symlink to compose.yml..."
-ln -sf "$SCRIPT_DIR/compose.yml" "$PROJECT_PATH/docker-compose.yml"
+ln -sf "$SCRIPT_DIR/compose.yml" "$PROJECT_PATH/compose.yml"
+
+# Create site directory
+cp -rT "$SCRIPT_DIR/site" "$PROJECT_PATH/site"
 
 # Create db directory
 echo "Creating db directory..."
@@ -109,7 +112,7 @@ echo "✅ Project initialized successfully!"
 echo ""
 echo "Project structure:"
 echo "  $PROJECT_PATH/"
-echo "  ├── docker-compose.yml (symlink)"
+echo "  ├── compose.yml (symlink)"
 echo "  ├── .env"
 echo "  ├── db/"
 echo "  │   └── simple_db.sql"
